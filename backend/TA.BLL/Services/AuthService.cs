@@ -44,6 +44,7 @@ public class AuthService : BaseService, IAuthService
             ?? throw new KeyNotFoundException($"User with Id {oldToken.UserId} not found");
 
         oldToken.Revoke();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return await GenerateAuthResponseAsync(user, cancellationToken);
     }
