@@ -1,4 +1,4 @@
-namespace PI.BLL.DTOs.Identity;
+namespace TA.BLL.DTOs.Identity;
 
 public record UserResponse
 {
@@ -6,4 +6,5 @@ public record UserResponse
     public string Username { get; init; } = null!;
     public string Email { get; init; } = null!;
     public string Role { get; init; } = null!;
+    public DateTime CreatedAt { get; init; }
 }
