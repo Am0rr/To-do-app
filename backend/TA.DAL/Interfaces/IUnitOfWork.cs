@@ -2,10 +2,10 @@ namespace TA.DAL.Interfaces;
 
 public interface IUnitOfWork
 {
-    IUserRepository userRepository { get; }
-    IRefreshTokenRepository refreshTokenRepository { get; }
-    ICategoryRepository categoryRepository { get; }
-    ITaskRepository taskRepository { get; }
+    IUserRepository Users { get; }
+    IRefreshTokenRepository RefreshTokens { get; }
+    ICategoryRepository Categories { get; }
+    ITaskRepository TaskItems { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
