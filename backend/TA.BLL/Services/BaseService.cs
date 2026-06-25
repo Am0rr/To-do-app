@@ -14,11 +14,7 @@ public class BaseService
 
     protected void Validate<TRequest>(TRequest request)
     {
-        var validator = _serviceProvider.GetService<IValidator<TRequest>>();
-
-        if (validator != null)
-        {
-            validator.ValidateAndThrow(request);
-        }
+        var validator = _serviceProvider.GetRequiredService<IValidator<TRequest>>();
+        validator.ValidateAndThrow(request);
     }
 }
