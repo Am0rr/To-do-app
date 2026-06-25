@@ -9,7 +9,7 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
     public IUserRepository Users { get; }
     public IRefreshTokenRepository RefreshTokens { get; }
     public ICategoryRepository Categories { get; }
-    public ITaskRepository TaskItems { get; }
+    public ITaskRepository Tasks { get; }
 
     public UnitOfWork(AppDbContext context,
         IUserRepository userRepository,
@@ -22,7 +22,7 @@ public class UnitOfWork : IUnitOfWork, IAsyncDisposable
         Users = userRepository;
         Categories = categoryRepository;
         RefreshTokens = refreshTokenRepository;
-        TaskItems = taskRepository;
+        Tasks = taskRepository;
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)

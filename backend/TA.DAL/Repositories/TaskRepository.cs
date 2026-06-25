@@ -9,7 +9,7 @@ namespace TA.DAL.Repositories;
 public class TaskRepository(AppDbContext context)
     : BaseRepository<TaskItem>(context), ITaskRepository
 {
-    public async Task<TaskPagedResult> GetFilteredPagedAsync(Guid userId, TaskFilterModel filter, CancellationToken cancellationToken = default)
+    public async Task<TaskPagedResult> GetFilteredPagedAsync(Guid? userId, TaskFilterModel filter, CancellationToken cancellationToken = default)
     {
         IQueryable<TaskItem> query = _dbSet.AsNoTracking().Where(t => t.UserId == userId);
 
@@ -22,6 +22,9 @@ public class TaskRepository(AppDbContext context)
 
         if (filter.Status.HasValue)
             query = query.Where(t => t.Status == filter.Status.Value);
+
+        if (userId.HasValue)
+            query = query.Where(t => t.UserId == userId);
 
         int totalCount = await query.CountAsync(cancellationToken);
 

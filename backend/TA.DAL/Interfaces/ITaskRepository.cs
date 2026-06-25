@@ -5,5 +5,5 @@ namespace TA.DAL.Interfaces;
 
 public interface ITaskRepository : IBaseRepository<TaskItem>
 {
-    Task<TaskPagedResult> GetFilteredPagedAsync(Guid userId, TaskFilterModel filter, CancellationToken cancellationToken = default);
+    Task<TaskPagedResult> GetFilteredPagedAsync(Guid? userId, TaskFilterModel filter, CancellationToken cancellationToken = default);
 }

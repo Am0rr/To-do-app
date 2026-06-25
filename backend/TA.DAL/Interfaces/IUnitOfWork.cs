@@ -5,7 +5,7 @@ public interface IUnitOfWork
     IUserRepository Users { get; }
     IRefreshTokenRepository RefreshTokens { get; }
     ICategoryRepository Categories { get; }
-    ITaskRepository TaskItems { get; }
+    ITaskRepository Tasks { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
