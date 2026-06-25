@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using TA.DAL.Entities.Tasks;
 using TA.DAL.Interfaces;
 using TA.DAL.Persistence;
