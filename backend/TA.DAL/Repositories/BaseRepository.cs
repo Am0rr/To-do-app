@@ -1,17 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using TA.DAL.Entities;
 using TA.DAL.Interfaces;
+using TA.DAL.Persistence;
 
 namespace TA.DAL.Repositories;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+public class BaseRepository<T>(AppDbContext context) : IBaseRepository<T> where T : BaseEntity
 {
-    protected readonly DbSet<T> _dbSet;
-
-    public BaseRepository(DbContext context)
-    {
-        _dbSet = context.Set<T>();
-    }
+    protected readonly DbSet<T> _dbSet = context.Set<T>();
 
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
