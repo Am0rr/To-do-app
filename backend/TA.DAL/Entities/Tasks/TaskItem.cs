@@ -6,7 +6,6 @@ public class TaskItem : BaseEntity
 {
     public string Title { get; private set; } = null!;
     public string? Description { get; private set; }
-    public DateTime UpdatedAt { get; private set; }
     public Guid UserId { get; private set; }
     public Guid? CategoryId { get; private set; }
     public TaskItemStatus Status { get; private set; }
@@ -17,15 +16,29 @@ public class TaskItem : BaseEntity
     {
         Title = title;
         Description = description;
-        UpdatedAt = DateTime.UtcNow;
         CategoryId = categoryId;
         UserId = userId;
         Status = status;
     }
 
-    public void ChangeTitle(string newTitle) => Title = newTitle;
-    public void ChangeDescription(string? newDescription) => Description = newDescription;
-    public void ChangeCategory(Guid? newCategoryId) => CategoryId = newCategoryId;
-    public void ChangeStatus(TaskItemStatus newStatus) => Status = newStatus;
-    public void SetUpdatedAt(DateTime updatedAt) => UpdatedAt = updatedAt;
+    public void ChangeTitle(string newTitle)
+    {
+        Title = newTitle;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void ChangeDescription(string? newDescription)
+    {
+        Description = newDescription;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void ChangeCategory(Guid? newCategoryId)
+    {
+        CategoryId = newCategoryId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void ChangeStatus(TaskItemStatus newStatus)
+    {
+        Status = newStatus;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

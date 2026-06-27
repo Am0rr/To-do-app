@@ -15,6 +15,15 @@ public class Category : BaseEntity
         UserId = userId;
     }
 
-    public void ChangeName(string name) => Name = name;
-    public void ChangeDescription(string description) => Description = description;
+    public void ChangeName(string name)
+    {
+        Name = name;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ChangeDescription(string description)
+    {
+        Description = description;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

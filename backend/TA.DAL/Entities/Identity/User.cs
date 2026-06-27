@@ -19,7 +19,21 @@ public class User : BaseEntity
         Role = role;
     }
 
-    public void ChangeUsername(string newUsername) => Username = newUsername;
-    public void ChangeEmail(string newEmail) => Email = newEmail;
-    public void ChangeRole(UserRole newRole) => Role = newRole;
+    public void ChangeUsername(string newUsername)
+    {
+        Username = newUsername;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ChangeEmail(string newEmail)
+    {
+        Email = newEmail;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ChangeRole(UserRole newRole)
+    {
+        Role = newRole;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
