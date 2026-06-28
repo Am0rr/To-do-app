@@ -6,6 +6,7 @@ export interface UserResponse{
     email: string;
     role: UserRole;
     createdAt: string;
+    updatedAt: string;
 }
 
 export interface CreateUserRequest{
