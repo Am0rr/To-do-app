@@ -2,19 +2,39 @@
   <app-navbar />
 
   <div class="flex flex-1 overflow-hidden border-t border-gray-200">
+    <!-- Sidebar -->
     <div class="w-64 bg-white shadow-md flex flex-col z-10">
       <div class="h-16 px-4 border-b border-gray-200 flex items-center">
         <h2 class="text-lg font-semibold text-gray-800">My Lists</h2>
       </div>
-
       <nav class="flex-1 p-4">
         <ul class="space-y-1">
-          <li class="px-3 py-2 rounded-md bg-blue-50 text-blue-600 font-medium cursor-pointer">
-            📋 All Tasks
+          <li
+            (click)="filterByCategory(null)"
+            class="px-3 py-2 rounded-md cursor-pointer"
+            [class.bg-blue-50]="!selectedCategoryId"
+            [class.text-blue-600]="!selectedCategoryId"
+            [class.font-medium]="!selectedCategoryId"
+            [class.text-gray-700]="selectedCategoryId"
+          >
+            <lucide-icon [img]="List" class="w-4 h-4 mr-2 inline"></lucide-icon>
+            All Tasks
           </li>
-          <li class="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer">
-            📁 Work
-          </li>
+          @if (categories$ | async; as categories) {
+            @for (category of categories; track category.id) {
+              <li
+                (click)="filterByCategory(category.id, category.name)"
+                class="px-3 py-2 rounded-md cursor-pointer"
+                [class.bg-blue-50]="selectedCategoryId === category.id"
+                [class.text-blue-600]="selectedCategoryId === category.id"
+                [class.font-medium]="selectedCategoryId === category.id"
+                [class.text-gray-700]="selectedCategoryId !== category.id"
+              >
+                <lucide-icon [img]="Folder" class="w-4 h-4 mr-2 inline"></lucide-icon>
+                {{ category.name }}
+              </li>
+            }
+          }
         </ul>
       </nav>
       <div class="p-4">
@@ -22,14 +42,14 @@
       </div>
     </div>
 
+    <!-- Main content -->
     <div class="flex-1 flex flex-col overflow-hidden">
       <div class="h-16 bg-white px-6 border-b border-gray-200 flex items-center justify-between">
-        <h1 class="text-xl font-semibold text-gray-800">All Tasks</h1>
+        <h1 class="text-xl font-semibold text-gray-800">{{ selectedCategoryName }}</h1>
         <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
           + Add Task
         </button>
       </div>
-
       <div class="px-6 py-4 bg-white border-b border-gray-200 flex gap-4">
         <input
           type="text"
@@ -47,7 +67,6 @@
           <option value="Done">Done</option>
         </select>
       </div>
-
       <div class="flex-1 overflow-y-auto p-6">
         <div class="space-y-2">
           @if (tasks$ | async; as pagedResult) {
@@ -90,7 +109,6 @@
           }
         </div>
       </div>
-
       <div
         class="bg-white border-t border-gray-200 px-6 py-3 flex items-center justify-center gap-2"
       >

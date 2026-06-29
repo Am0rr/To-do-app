@@ -7,16 +7,20 @@ import { CategoryService } from '../../core/services/category.service';
 import { AsyncPipe } from '@angular/common';
 import { BehaviorSubject, debounceTime, Observable, shareReplay, switchMap } from 'rxjs';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LucideAngularModule, List, Folder, Plus } from 'lucide-angular';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [FormsModule, AsyncPipe, NavbarComponent],
+  imports: [FormsModule, AsyncPipe, NavbarComponent, LucideAngularModule],
   templateUrl: './tasks.component.html',
 })
 export class TasksComponent implements OnInit {
   tasks$!: Observable<TaskPagedResponse>;
   categories$!: Observable<CategoryResponse[]>;
+  readonly List = List;
+  readonly Folder = Folder;
+  readonly Plus = Plus;
 
   constructor(
     private taskService: TaskService,
@@ -63,6 +67,19 @@ export class TasksComponent implements OnInit {
   deleteTask(id: string) {
     this.taskService.delete(id).subscribe({
       next: () => this.loadTasks(),
+    });
+  }
+
+  selectedCategoryId: string | null = null;
+  selectedCategoryName: string = 'All Tasks';
+
+  filterByCategory(categoryId: string | null, categoryName?: string) {
+    this.selectedCategoryId = categoryId;
+    this.selectedCategoryName = categoryName ?? 'All Tasks';
+    this.filterSubject.next({
+      ...this.filterSubject.value,
+      categoryId: categoryId ?? undefined,
+      pageNumber: 1,
     });
   }
 }
