@@ -6,11 +6,12 @@ import { TaskService } from '../../core/services/task.service';
 import { CategoryService } from '../../core/services/category.service';
 import { AsyncPipe } from '@angular/common';
 import { BehaviorSubject, debounceTime, Observable, shareReplay, switchMap } from 'rxjs';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [FormsModule, AsyncPipe],
+  imports: [FormsModule, AsyncPipe, NavbarComponent],
   templateUrl: './tasks.component.html',
 })
 export class TasksComponent implements OnInit {
