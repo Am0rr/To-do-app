@@ -11,7 +11,7 @@ public class TaskRepository(AppDbContext context)
 {
     public async Task<TaskPagedResult> GetFilteredPagedAsync(Guid? userId, TaskFilterModel filter, CancellationToken cancellationToken = default)
     {
-        IQueryable<TaskItem> query = _dbSet.AsNoTracking().Where(t => t.UserId == userId);
+        IQueryable<TaskItem> query = _dbSet.AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
             query = query.Where(t => t.Title.Contains(filter.SearchTerm) ||
@@ -24,7 +24,7 @@ public class TaskRepository(AppDbContext context)
             query = query.Where(t => t.Status == filter.Status.Value);
 
         if (userId.HasValue)
-            query = query.Where(t => t.UserId == userId);
+            query = query.Where(t => t.UserId == userId.Value);
 
         int totalCount = await query.CountAsync(cancellationToken);
 

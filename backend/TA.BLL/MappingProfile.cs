@@ -3,6 +3,7 @@ using TA.BLL.DTOs.Identity;
 using TA.BLL.DTOs.Tasks;
 using TA.DAL.Entities.Identity;
 using TA.DAL.Entities.Tasks;
+using TA.DAL.Models;
 
 namespace TA.BLL;
 
@@ -17,5 +18,7 @@ public class MappingProfile : Profile
 
         CreateMap<TaskItem, TaskResponse>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
+        CreateMap<TaskPagedResult, TaskPagedResponse>();
     }
 }
