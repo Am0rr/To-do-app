@@ -1,21 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TaskFilterModel, TaskResponse } from "../../core/models/task.model";
+import { TaskFilterModel, TaskPagedResponse, TaskResponse } from "../../core/models/task.model";
 import { CategoryResponse } from "../../core/models/category.model";
 import { TaskService } from "../../core/services/task.service";
 import { CategoryService } from "../../core/services/category.service";
+import { AsyncPipe } from "@angular/common";
+import { Observable } from "rxjs";
 
 @Component({
     selector: 'app-tasks',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, AsyncPipe],
     templateUrl: './tasks.component.html'
 })
 
 export class TasksComponent implements OnInit {
-    tasks: TaskResponse[] = [];
-    categories: CategoryResponse[] = [];
-    totalPages = 0;
+    tasks$!: Observable<TaskPagedResponse>;
+    categories$!: Observable<CategoryResponse[]>;
 
     filter: TaskFilterModel = {
         pageNumber: 1,
@@ -24,7 +25,7 @@ export class TasksComponent implements OnInit {
 
     constructor(
         private taskService: TaskService,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
     ) {}
 
     ngOnInit() {
@@ -33,17 +34,10 @@ export class TasksComponent implements OnInit {
     }
 
     loadTasks() {
-        this.taskService.getPaged(this.filter).subscribe({
-            next: (response) => {
-                this.tasks = response.items;
-                this.totalPages = response.totalPages;
-            }
-        });
+        this.tasks$ = this.taskService.getPaged(this.filter);
     }
 
     loadCategories() {
-        this.categoryService.getAll().subscribe({
-            next: (categories) => this.categories = categories
-        });
+        this.categories$ = this.categoryService.getAll();
     }
 }

@@ -44,25 +44,24 @@
     <div class="flex-1 overflow-y-auto p-6">
       <div class="space-y-2">
         
-        <div class="bg-white rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition cursor-pointer">
-          <input type="checkbox" class="w-5 h-5 accent-blue-600" />
-          <div class="flex-1">
-            <p class="font-medium text-gray-800">Buy groceries</p>
-            <p class="text-sm text-gray-500">Shopping</p>
+        @if (tasks$ | async; as pagedResult) {
+          @for (task of pagedResult.items; track task.id) {
+          <div class="bg-white rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition cursor-pointer">
+            <input type="checkbox" [checked]="task.status === 'Done'" class="w-5 h-5 accent-blue-600" />
+            <div class="flex-1">
+              <p class="font-medium" [class.line-through]="task.status === 'Done'" [class.text-gray-400]="task.status === 'Done'">
+                {{task.title}}
+              </p>
+              <p class="text-sm text-gray-500">{{task.description}}</p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full"
+              [class]="task.status === 'Done' ? 'bg-green-100 text-green-700' : task.status === 'InProgress' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600'">
+              {{task.status}}
+            </span>
+            <button class="text-gray-400 hover:text-red-500">✕</button>
           </div>
-          <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">In Progress</span>
-          <button class="text-gray-400 hover:text-red-500">✕</button>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition cursor-pointer">
-          <input type="checkbox" checked class="w-5 h-5 accent-blue-600" />
-          <div class="flex-1">
-            <p class="font-medium text-gray-800 line-through">Walk the dog</p>
-            <p class="text-sm text-gray-500">Personal</p>
-          </div>
-          <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Done</span>
-          <button class="text-gray-400 hover:text-red-500">✕</button>
-        </div>
+          }
+        }
 
       </div>
     </div>
@@ -74,6 +73,5 @@
       <span class="px-3 py-1 rounded hover:bg-gray-100 cursor-pointer">3</span>
       <button class="px-3 py-1 rounded border hover:bg-gray-100">→</button>
     </div>
-
   </div>
 </div>
