@@ -27,7 +27,7 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItem>
         builder.HasIndex(ti => ti.Status);
 
         builder.HasOne<Category>()
-            .WithMany()
+            .WithMany(c => c.Tasks)
             .IsRequired(false)
             .HasForeignKey(ti => ti.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);

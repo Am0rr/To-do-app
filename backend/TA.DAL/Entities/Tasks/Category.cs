@@ -6,6 +6,9 @@ public class Category : BaseEntity
     public string? Description { get; private set; }
     public Guid UserId { get; private set; }
 
+    private readonly List<TaskItem> _tasks = [];
+    public IReadOnlyCollection<TaskItem> Tasks => _tasks.AsReadOnly();
+
     protected Category() { }
 
     public Category(string name, string? description, Guid userId)
