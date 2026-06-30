@@ -92,10 +92,16 @@ export class TasksComponent implements OnInit {
   onTaskSaved() {
     this.closeModal();
     this.reload();
+    this.reloadCategories();
   }
 
   onDeleteTask(id: string) {
-    this.taskService.delete(id).subscribe({ next: () => this.reload() });
+    this.taskService.delete(id).subscribe({
+      next: () => {
+        this.reload();
+        this.reloadCategories();
+      },
+    });
   }
 
   private previousStatuses = new Map<string, TaskItemStatus>();
@@ -108,7 +114,12 @@ export class TasksComponent implements OnInit {
       this.previousStatuses.set(task.id, task.status);
       status = 'Done';
     }
-    this.taskService.update(task.id, { status }).subscribe({ next: () => this.reload() });
+    this.taskService.update(task.id, { status }).subscribe({
+      next: () => {
+        this.reload();
+        this.reloadCategories();
+      },
+    });
   }
 
   onCategoryAdded() {
@@ -138,5 +149,15 @@ export class TasksComponent implements OnInit {
     this.categoryService.getAll().subscribe({
       next: (categories) => this.categoriesSubject.next(categories),
     });
+  }
+
+  onPageSizeChange(pageSize: number) {
+    const currentFilter = this.filterSubject.value;
+
+    if (currentFilter.pageSize === pageSize) {
+      return;
+    }
+
+    this.patchFilter({ pageSize, pageNumber: 1 });
   }
 }
