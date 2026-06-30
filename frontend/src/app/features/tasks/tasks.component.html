@@ -46,7 +46,7 @@
   <app-task-modal
     [task]="modalTask"
     [categories$]="categories$"
-    (save)="onSaveTask($event)"
+    (saved)="onTaskSaved()"
     (cancel)="closeModal()"
   />
 }

@@ -38,7 +38,7 @@
               <lucide-icon [img]="Pencil" class="w-3.5 h-4"></lucide-icon>
             </button>
             <button
-              (click)="$event.stopPropagation(); deleteCategory(category.id)"
+              (click)="$event.stopPropagation(); onDeleteCategory(category.id)"
               class="text-gray-400 hover:text-red-500 px-1"
             >
               ✕

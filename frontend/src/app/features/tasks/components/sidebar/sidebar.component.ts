@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CategoryResponse, CreateCategoryRequest } from '../../../../core/models/category.model';
+import { CategoryResponse } from '../../../../core/models/category.model';
 import { LucideAngularModule, List, Folder, Pencil } from 'lucide-angular';
 import { CategoryService } from '../../../../core/services/category.service';
 
@@ -24,7 +24,7 @@ export class SidebarComponent {
   @Input() selectedCategoryId: string | null = null;
 
   @Output() categorySelected = new EventEmitter<{ id: string | null; name: string }>();
-  @Output() categoryAdded = new EventEmitter<CreateCategoryRequest>();
+  @Output() categoryAdded = new EventEmitter<void>();
   @Output() categoryDeleted = new EventEmitter<string>();
   @Output() categoryEdited = new EventEmitter<void>();
 
@@ -44,6 +44,10 @@ export class SidebarComponent {
   editCategoryError = '';
   deleteCategoryError = '';
 
+  showEditCategoryModal = false;
+  editingCategory: CategoryResponse | null = null;
+  editCategory = { name: '', description: '' };
+
   onAddCategory() {
     this.addCategoryError = '';
     this.categoryService
@@ -62,21 +66,6 @@ export class SidebarComponent {
             err.error?.errors?.[0] ?? err.error?.message ?? 'Failed to create category.';
         },
       });
-  }
-
-  showEditCategoryModal = false;
-  editingCategory: CategoryResponse | null = null;
-  editCategory = { name: '', description: '' };
-
-  openEditCategoryModal(category: CategoryResponse) {
-    this.editingCategory = category;
-    this.editCategory = { name: category.name, description: category.description ?? '' };
-    this.showEditCategoryModal = true;
-  }
-
-  closeEditCategoryModal() {
-    this.showEditCategoryModal = false;
-    this.editingCategory = null;
   }
 
   onEditCategory() {
@@ -101,7 +90,7 @@ export class SidebarComponent {
       });
   }
 
-  deleteCategory(id: string) {
+  onDeleteCategory(id: string) {
     this.deleteCategoryError = '';
     this.categoryService.delete(id).subscribe({
       next: () => this.categoryDeleted.emit(id),
@@ -109,5 +98,16 @@ export class SidebarComponent {
         alert(err.error?.message ?? 'Failed to delete category.');
       },
     });
+  }
+
+  openEditCategoryModal(category: CategoryResponse) {
+    this.editingCategory = category;
+    this.editCategory = { name: category.name, description: category.description ?? '' };
+    this.showEditCategoryModal = true;
+  }
+
+  closeEditCategoryModal() {
+    this.showEditCategoryModal = false;
+    this.editingCategory = null;
   }
 }

@@ -89,22 +89,9 @@ export class TasksComponent implements OnInit {
     this.showTaskModal = false;
   }
 
-  onSaveTask(request: {
-    title: string;
-    description?: string;
-    categoryId?: string;
-    status: TaskItemStatus;
-  }) {
-    const action$ = this.modalTask
-      ? this.taskService.update(this.modalTask.id, request)
-      : (this.taskService.create(request) as Observable<any>);
-
-    action$.subscribe({
-      next: () => {
-        this.closeModal();
-        this.reload();
-      },
-    });
+  onTaskSaved() {
+    this.closeModal();
+    this.reload();
   }
 
   onDeleteTask(id: string) {
