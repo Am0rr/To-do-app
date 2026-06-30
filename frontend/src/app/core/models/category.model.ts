@@ -2,6 +2,7 @@ export interface CategoryResponse {
   id: string;
   name: string;
   description?: string;
+  taskCount: number;
   createdAt: string;
   updatedAt: string;
 }
