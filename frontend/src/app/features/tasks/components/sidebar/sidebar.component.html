@@ -1,0 +1,88 @@
+<div class="w-64 bg-white shadow-md flex flex-col z-10">
+  <div class="h-16 px-4 border-b border-gray-200 flex items-center">
+    <h2 class="text-lg font-semibold text-gray-800">My Lists</h2>
+  </div>
+  <nav class="flex-1 p-4">
+    <ul class="space-y-1">
+      <li
+        (click)="categorySelected.emit({ id: null, name: 'All Tasks' })"
+        class="px-3 py-2 rounded-md cursor-pointer"
+        [class.bg-blue-50]="!selectedCategoryId"
+        [class.text-blue-600]="!selectedCategoryId"
+        [class.font-medium]="!selectedCategoryId"
+        [class.text-gray-700]="selectedCategoryId !== null"
+      >
+        <lucide-icon [img]="List" class="w-4 h-4 mr-2 inline"></lucide-icon>
+        All Tasks
+      </li>
+      @for (category of categories; track category.id) {
+        <li
+          (click)="categorySelected.emit({ id: category.id, name: category.name })"
+          class="px-3 py-2 rounded-md cursor-pointer flex items-center justify-between group transition"
+          [class.bg-blue-50]="selectedCategoryId === category.id"
+          [class.text-blue-600]="selectedCategoryId === category.id"
+          [class.font-medium]="selectedCategoryId === category.id"
+          [class.text-gray-700]="selectedCategoryId !== category.id"
+        >
+          <div class="flex items-center min-w-0">
+            <lucide-icon [img]="Folder" class="w-4 h-4 mr-2 shrink-0"></lucide-icon>
+            <span class="truncate">{{ category.name }}</span>
+          </div>
+          <button
+            (click)="$event.stopPropagation(); categoryDeleted.emit(category.id)"
+            class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity px-1 shrink-0"
+          >
+            ✕
+          </button>
+        </li>
+      }
+    </ul>
+  </nav>
+  <div class="p-4">
+    <button
+      (click)="showAddCategoryModal = true"
+      class="w-full text-left text-blue-600 hover:text-blue-700"
+    >
+      + New Category
+    </button>
+  </div>
+</div>
+
+@if (showAddCategoryModal) {
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
+      <h2 class="text-lg font-semibold mb-4">New Category</h2>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input
+          type="text"
+          [(ngModel)]="newCategory.name"
+          placeholder="Category name"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <textarea
+          [(ngModel)]="newCategory.description"
+          placeholder="Description (optional)"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 h-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+      </div>
+      <div class="flex gap-3 justify-end">
+        <button
+          (click)="showAddCategoryModal = false"
+          class="px-4 py-2 text-gray-600 hover:text-gray-800"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="onAddCategory()"
+          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+}

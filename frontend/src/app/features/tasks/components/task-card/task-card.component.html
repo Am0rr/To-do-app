@@ -1,0 +1,39 @@
+<div
+  class="bg-white rounded-lg shadow-sm p-4 flex items-center gap-4 hover:shadow-md transition cursor-pointer"
+  (click)="edit.emit(task)"
+>
+  <input
+    type="checkbox"
+    [checked]="task.status === 'Done'"
+    (click)="$event.stopPropagation(); toggleStatus.emit(task)"
+    class="w-5 h-5 accent-blue-600"
+  />
+  <div class="flex-1">
+    <p
+      class="font-medium"
+      [class.line-through]="task.status === 'Done'"
+      [class.text-gray-400]="task.status === 'Done'"
+    >
+      {{ task.title }}
+    </p>
+    <p class="text-sm text-gray-500">{{ task.description }}</p>
+  </div>
+  <span
+    class="text-xs px-2 py-1 rounded-full"
+    [class]="
+      task.status === 'Done'
+        ? 'bg-green-100 text-green-700'
+        : task.status === 'InProgress'
+          ? 'bg-yellow-100 text-yellow-700'
+          : 'bg-gray-100 text-gray-600'
+    "
+  >
+    {{ task.status }}
+  </span>
+  <button
+    (click)="$event.stopPropagation(); delete.emit(task.id)"
+    class="text-gray-400 hover:text-red-500"
+  >
+    ✕
+  </button>
+</div>
