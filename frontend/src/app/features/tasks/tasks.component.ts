@@ -108,8 +108,16 @@ export class TasksComponent implements OnInit {
     this.taskService.delete(id).subscribe({ next: () => this.reload() });
   }
 
+  private previousStatuses = new Map<string, TaskItemStatus>();
+
   onToggleStatus(task: TaskResponse) {
-    const status: TaskItemStatus = task.status === 'Done' ? 'Todo' : 'Done';
+    let status: TaskItemStatus;
+    if (task.status === 'Done') {
+      status = this.previousStatuses.get(task.id) ?? 'Todo';
+    } else {
+      this.previousStatuses.set(task.id, task.status);
+      status = 'Done';
+    }
     this.taskService.update(task.id, { status }).subscribe({ next: () => this.reload() });
   }
 

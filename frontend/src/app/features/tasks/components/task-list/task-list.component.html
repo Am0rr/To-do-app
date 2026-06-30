@@ -16,7 +16,7 @@
     <button
       (click)="pageChange.emit(pagedResult.pageNumber - 1)"
       [disabled]="pagedResult.pageNumber === 1"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+      class="px-2 py-1 rounded border hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
     >
       ←
     </button>
@@ -36,7 +36,7 @@
     <button
       (click)="pageChange.emit(pagedResult.pageNumber + 1)"
       [disabled]="pagedResult.pageNumber === pagedResult.totalPages"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+      class="px-2 py-1 rounded border hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
     >
       →
     </button>

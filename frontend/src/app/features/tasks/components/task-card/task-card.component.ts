@@ -6,6 +6,7 @@ import { TaskResponse } from '../../../../core/models/task.model';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './task-card.component.html',
+  host: { class: 'block mb-2' },
 })
 export class TaskCardComponent {
   @Input({ required: true }) task!: TaskResponse;
