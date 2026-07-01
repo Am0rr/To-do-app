@@ -100,6 +100,7 @@ public class CategoryService : BaseService, ICategoryService
             categories = await _unitOfWork.Categories.Query()
                 .Where(c => c.UserId == userId)
                 .Include(c => c.Tasks)
+                .OrderBy(c => c.Name)
                 .ToListAsync(cancellationToken);
 
         return _mapper.Map<IEnumerable<CategoryResponse>>(categories);

@@ -101,6 +101,7 @@ public class TaskService : BaseService, ITaskService
         else
             tasks = await _unitOfWork.Tasks.Query()
                 .Where(t => t.UserId == userId)
+                .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync(cancellationToken);
 
         return _mapper.Map<IEnumerable<TaskResponse>>(tasks);
